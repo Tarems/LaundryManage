@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laundry Room Management</title>
+    <link href="/js/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .layui-body {
+            left: 0; /* 保留 left: 0; */
+        }
+
+        /* 设置页面布局，使内容区域可以滚动 */
+        .layui-layout-admin {
+            height: 100vh;
+        }
+
+        .layui-body {
+            padding: 20px;
+            overflow-y: auto;
+            height: calc(100vh - 60px); /* 减去 header 和 footer 的高度 */
+        }
+
+        .machine-img {
+            width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .status-panel, .history-panel {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+        }
+
+        .status-panel h3, .history-panel h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .history-panel {
+            background-color: #f1f1f1;
+        }
+
+        /* Flexbox for centering */
+        .layui-row {
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            flex-wrap: wrap; /* 允许多行显示 */
+        }
+
+        .layui-col-xs6 {
+            flex: 1 1 300px; /* 在手机竖屏时设置宽度为300px，且保持弹性布局 */
+            max-width: 400px;
+            margin: 10px; /* 添加外边距防止挤在一起 */
+        }
+
+        /* 针对手机竖屏（小于768px）的响应式调整 */
+        @media (max-width: 768px) {
+            .layui-col-xs6 {
+                width: 100%; /* 手机竖屏时占满100%的宽度 */
+                margin: 0 auto 20px; /* 保证垂直居中 */
+            }
+
+            .machine-img {
+                width: 120px; /* 缩小图片大小 */
+            }
+
+            .status-panel, .history-panel {
+                padding: 10px; /* 减少面板内边距 */
+            }
+
+            .status-panel h3, .history-panel h3 {
+                font-size: 14px; /* 减小标题字体大小 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-layout layui-layout-admin">
+    <!-- 页面头部 -->
+    <div class="layui-header">
+        <div class="layui-logo">Laundry Management</div>
+    </div>
+
+    <!-- 页面内容主体 -->
+    <div class="layui-body">
+        <!-- 左侧烘干机 -->
+        <div class="layui-row">
+            <div class="layui-col-xs6">
+                <div class="status-panel" id="1">
+                    <h3 id="h3_1">Left Dryer Status</h3>
+                    <!-- 确保图片路径正确 -->
+                    <img src="/img/1.jpg" alt="Left Dryer" class="machine-img">
+                    <div id="div_save_1" class="layui-form">
+                        <input type="hidden" name="deviceName" value="Left Dryer">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" name="studentName" placeholder="Enter name"
+                               lay-verify="required">
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input mytime" name="timeRemaining" placeholder="Enter time"
+                               lay-verify="required" readonly>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" name="studentRoom" placeholder="Enter room">
+                        <hr>
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid" type="submit" lay-submit
+                                lay-filter="btn1">开始使用
+                        </button>
+                    </div>
+                    <div id="div_detail_1" style="display: none;">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter name" disabled>
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input" style="color: #1e9fff" disabled>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter room" disabled>
+                    </div>
+                </div>
+                <div class="history-panel">
+                    <h3>Left Dryer History</h3>
+                    <div id="history_1">
+                        <strong>THERE IS NO RECORD OF USE</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧烘干机 -->
+            <div class="layui-col-xs6">
+                <div class="status-panel" id="2">
+                    <h3 id="h3_2">Right Dryer Status</h3>
+                    <!-- 确保图片路径正确 -->
+                    <img src="/img/1.jpg" alt="Right Dryer" class="machine-img">
+                    <div id="div_save_2" class="layui-form">
+                        <input type="hidden" name="deviceName" value="Right Dryer">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" name="studentName" placeholder="Enter name"
+                               lay-verify="required">
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input mytime" name="timeRemaining" placeholder="Enter time"
+                               lay-verify="required" readonly>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" name="studentRoom" placeholder="Enter room">
+                        <hr>
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid" type="submit" lay-submit
+                                lay-filter="btn2">开始使用
+                        </button>
+                    </div>
+                    <div id="div_detail_2" style="display: none;">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter name" disabled>
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input" style="color: #1e9fff" disabled>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter room" disabled>
+                    </div>
+                </div>
+                <div class="history-panel">
+                    <h3>Right Dryer History</h3>
+                    <div id="history_2">
+                        <strong>THERE IS NO RECORD OF USE</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左侧洗衣机 -->
+        <div class="layui-row">
+            <div class="layui-col-xs6">
+                <div class="status-panel" id="3">
+                    <h3 id="h3_3">Left Washing Machine Status</h3>
+                    <!-- 确保图片路径正确 -->
+                    <img src="/img/2.jpg" alt="Left Washing Machine" class="machine-img">
+                    <div id="div_save_3" class="layui-form">
+                        <input type="hidden" name="deviceName" value="Left Washing Machine">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" name="studentName" placeholder="Enter name"
+                               lay-verify="required">
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input mytime" name="timeRemaining" placeholder="Enter time"
+                               lay-verify="required" readonly>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" name="studentRoom" placeholder="Enter room">
+                        <hr>
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid" type="submit" lay-submit
+                                lay-filter="btn3">开始使用
+                        </button>
+                    </div>
+                    <div id="div_detail_3" style="display: none;">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter name" disabled>
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input" style="color: #1e9fff" disabled>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter room" disabled>
+                    </div>
+                </div>
+                <div class="history-panel">
+                    <h3>Left Washing Machine History</h3>
+                    <div id="history_3">
+                        <strong>THERE IS NO RECORD OF USE</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧洗衣机 -->
+            <div class="layui-col-xs6">
+                <div class="status-panel" id="4">
+                    <h3 id="h3_4">Right Washing Machine Status</h3>
+                    <!-- 确保图片路径正确 -->
+                    <img src="/img/2.jpg" alt="Right Washing Machine" class="machine-img">
+                    <div id="div_save_4" class="layui-form">
+                        <input type="hidden" name="deviceName" value="Right Washing Machine">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" name="studentName" placeholder="Enter name"
+                               lay-verify="required">
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input mytime" name="timeRemaining" placeholder="Enter time"
+                               lay-verify="required" readonly>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" name="studentRoom" placeholder="Enter room">
+                        <hr>
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid" type="submit" lay-submit
+                                lay-filter="btn4">开始使用
+                        </button>
+                    </div>
+                    <div id="div_detail_4" style="display: none;">
+                        <label><strong>In Use By:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter name" disabled>
+                        <label><strong>Time Remaining:</strong></label>
+                        <input type="text" class="layui-input" style="color: #1e9fff" disabled>
+                        <label><strong>Room:</strong></label>
+                        <input type="text" class="layui-input" placeholder="Enter room" disabled>
+                    </div>
+                </div>
+                <div class="history-panel">
+                    <h3>Right Washing Machine History</h3>
+                    <div id="history_4">
+                        <strong>THERE IS NO RECORD OF USE</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面底部 -->
+    <div class="layui-footer">
+        SD Laundry by Jack's Group: Jack, Derek, Lucas
+    </div>
+</div>
+<script src="/js/axios.min.js"></script>
+<script src="/js/layui/layui.js"></script>
+<script>
+    layui.use(function () {
+        const $ = layui.jquery;
+        const util = layui.util;
+        const form = layui.form;
+        const layer = layui.layer;
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: ".mytime",
+            type: "time",
+            shortcuts: function () { // 生成 30 分钟间隔的时间列表
+                var value = [];
+                var now = new Date();
+                now.setHours(0, 0, 0, 0);
+                for (var i = 1; i < 7; i++) {
+                    var nowTemp = now.setMinutes(now.getMinutes() + (i ? 30 : 0));
+                    var nowTimeStr = util.toDateString(nowTemp, "HH:mm:ss");
+                    value.push({text: nowTimeStr, value: nowTimeStr});
+                }
+                return value;
+            }()
+        });
+
+        /**
+         * 打开页面发起请求，查询设备列表和设备的使用记录
+         */
+        axios.post('/index/findLaundryList', {}).then(function (response) {
+            // 设备状态
+            const {msg, data} = response.data;
+            data.forEach((item, index) => {
+                let h3 = $('#h3_' + item.id);
+                let divSave = $('#div_save_' + item.id);
+                let divDetail = $('#div_detail_' + item.id);
+                if (item.deviceStatus === 'idle') {
+                    h3.html(`${item.deviceName} status &emsp;<span class="layui-badge">${item.deviceStatus}</span>`);
+                    // 空闲状态显示可录入项
+                    divSave.show();
+                    divDetail.hide();
+                } else {
+                    h3.html(`${item.deviceName} status &emsp;<span class="layui-badge layui-bg-green">${item.deviceStatus}</span>`);
+                    // 正在工作中，隐藏录入项
+                    divSave.hide();
+                    // 显示谁再使用，剩余时间
+                    divDetail.show();
+                    let divDetailInput = divDetail.find('input');
+                    // 使用者
+                    divDetailInput[0].value = item.studentName;
+                    // 倒计时
+                    util.countdown({
+                        date: item.endTime, // 目标时间值
+                        now: new Date(), // 当前时间，一般为服务器时间，此处以本地时间为例
+                        ready: function () { // 初始操作
+                            clearTimeout(util.countdown.timer); // 清除旧定时器，防止多次渲染时重复执行。实际使用时不常用
+                        },
+                        clock: function (obj, inst) {  // 计时中
+                            divDetailInput[1].value = [obj.d, '天', obj.h, '时', obj.m, '分', obj.s, '秒'].join(' ');
+                            util.countdown.timer = inst.timer; // 记录当前定时器，以便在重复渲染时清除。实际使用时不常用
+                        },
+                        done: function (obj, inst) { // 计时完成, 重置设备状态
+                            divSave.show();
+                            divDetail.hide();
+                            h3.html(`${item.deviceName} status &emsp;<span class="layui-badge">idle</span>`);
+                            axios.get('/index/clearUseTime?id=' + item.id).then(function (res) {
+                                console.log(res.data);
+                            })
+                        }
+                    });
+                    divDetailInput[2].value = item.studentRoom;
+                }
+                // 设备的历史记录
+                const deviceLogs = item.logsList;
+                console.log(deviceLogs)
+                let historyHtml = '';
+                deviceLogs.forEach((item, index) => {
+                    // 计算时间，把差值转分钟显示
+                    const startTime = new Date(item.startTime).getTime();
+                    const endTime = new Date(item.endTime).getTime();
+                    const minutesDifference = (endTime - startTime) / (1000 * 60);
+                    historyHtml += `<strong>${item.studentName}</strong>, ${minutesDifference} mins<br>`;
+                });
+                $('#history_' + item.id).html(historyHtml);
+            });
+
+
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+        form.on('submit(btn1)', function (data) {
+            var field = data.field; // 获取表单字段值
+            field.id = 1;
+            saveFormFun(field);
+            return false; // 阻止默认 form 跳转
+        });
+        form.on('submit(btn2)', function (data) {
+            var field = data.field; // 获取表单字段值
+            field.id = 2;
+            saveFormFun(field);
+            return false; // 阻止默认 form 跳转
+        });
+        form.on('submit(btn3)', function (data) {
+            var field = data.field; // 获取表单字段值
+            field.id = 3;
+            saveFormFun(field);
+            return false; // 阻止默认 form 跳转
+        });
+        form.on('submit(btn4)', function (data) {
+            var field = data.field; // 获取表单字段值
+            field.id = 4;
+            saveFormFun(field);
+            return false; // 阻止默认 form 跳转
+        });
+
+
+        const saveFormFun = function (field) {
+            let startTime = new Date();
+            field.deviceStatus = 'work'
+            field.startTime = util.toDateString(startTime, 'yyyy-MM-dd HH:mm:ss');
+            const timeRemaining = field.timeRemaining.split(':');
+            let endTime = startTime.setHours(
+                startTime.getHours() + (timeRemaining[0] / 1)
+                , startTime.getMinutes() + (timeRemaining[1] / 1)
+                , startTime.getSeconds() + (timeRemaining[2] / 1)
+            )
+            field.endTime = util.toDateString(endTime, 'yyyy-MM-dd HH:mm:ss');
+            axios.post('/index/saveLaundryLogs', field).then(function (response) {
+                if (response.status === 200) {
+                    // 刷新当前页面
+                    window.location.reload();
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    });
+</script>
+</body>
+</html>

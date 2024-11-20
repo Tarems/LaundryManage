@@ -1,0 +1,27 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: demo
+  thymeleaf:
+    cache: false # 取消缓存，防止开发时每次都需要重启程序
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=UTC
+    username: root
+    password: root
+  sqltoy:
+    debug: true
+#mybatis配置
+mybatis-flex:
+  type-aliases-package: com.example.demo.entity
+  # 映射文件位置
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#日志格式
+logging:
+  pattern:
+    console: '%d{MM/dd HH:mm:ss.SSS} %clr(%-5level) ---  [%-15thread] %cyan(%-50logger{50}):%msg%n'
+  level.com.example.demo.mapper: DEBUG #打印mybatis日志

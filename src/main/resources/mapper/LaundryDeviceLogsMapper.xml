@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.LaundryDeviceLogsMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.LaundryDeviceLogs">
+            <id property="deviceId" column="device_id" jdbcType="INTEGER"/>
+            <result property="deviceName" column="device_name" jdbcType="VARCHAR"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="studentName" column="student_name" jdbcType="VARCHAR"/>
+            <result property="studentRoom" column="student_room" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        device_id,device_name,start_time,
+        end_time,student_name,student_room
+    </sql>
+</mapper>
